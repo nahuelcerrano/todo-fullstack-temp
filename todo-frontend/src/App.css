@@ -1,0 +1,651 @@
+/* Reset y variables CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+:root {
+  --primary: #383838;
+  --primary-dark: #7A7A73;
+  --secondary: #DDDAD0;
+  --accent: #2CB910;
+  --danger: #FF0000;
+  --warning: #f59e0b;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 10px 25px rgba(22, 17, 17, 0.1);
+  --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+  --gradient: linear-gradient(135deg, #4682A9 0%, #749BC2 100%);
+  --radius: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Header */
+.header {
+  background: var(--gradient);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+
+.header-content h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+
+.task-icon {
+  font-size: 2rem;
+  animation: bounce 2s infinite;
+}
+
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+
+.header-content p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+
+.parrafo{
+  text-align: center;
+}
+
+
+/* Main Content */
+.app-main {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+/* Input Section */
+.input-section {
+  margin-bottom: 2rem;
+}
+
+
+.input-container {
+  display: flex;
+  gap: 1rem;
+  background: white;
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+
+.input-container:focus-within {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+
+.todo-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  background: transparent;
+  color: var(--text);
+}
+
+
+.todo-input::placeholder {
+  color: var(--text-light);
+}
+
+
+.add-button {
+  background: var(--gradient);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+}
+
+
+.add-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+
+/* Controls Section */
+.controls-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.stat-item {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+
+.stat-item strong {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--border);
+  background: var(--primary);
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+  min-width: 80px;
+}
+
+
+.filter-btn:hover {
+  border-color: var(--primary);
+}
+
+
+.filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+
+.clear-completed {
+  background: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin-top: 0.5rem;
+}
+
+
+.clear-completed:hover {
+  background: var(--danger);
+  color: white;
+  transform: translateY(-1px);
+}
+
+
+/* Todo List Section */
+.todo-list-section {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+
+.todo-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+
+.todo-item:hover {
+  background: #fafafa;
+}
+
+
+.todo-item.completed {
+  opacity: 0.7;
+}
+
+
+.todo-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+
+.checkbox-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.todo-checkbox {
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+
+.checkmark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+
+.todo-checkbox:checked + .checkmark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+
+.todo-checkbox:checked + .checkmark::after {
+  content: "✓";
+  color: white;
+  font-weight: bold;
+}
+
+
+.todo-text {
+  font-size: 1.1rem;
+  transition: var(--transition);
+}
+
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+
+.delete-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition);
+  opacity: 0.6;
+}
+
+
+.delete-button:hover {
+  background: var(--danger);
+  opacity: 1;
+}
+
+
+.trash-icon {
+  font-size: 1.1rem;
+}
+
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--text-light);
+}
+
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+
+.empty-state h3 {
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+
+.empty-state p {
+  color: var(--text-light);
+}
+
+
+/* Error Popup */
+/* --- ESTILO CRISTALINO PARA EL ERROR --- */
+.error-popup {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  /* Gradiente translúcido simulando cristal */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(173, 216, 230, 0.7) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 8px 32px 0 rgba(0, 150, 255, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.8);
+  
+  color: #005b9f; /* Texto azul profundo para contrastar */
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-weight: 600;
+  
+  /* Animación de entrada */
+  animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1000;
+}
+
+/* Ajuste para el ícono dentro del error */
+.error-popup .error-icon {
+  font-size: 1.5rem;
+}
+
+/* Animación para que el cartel entre desde la derecha */
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .app-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .header-content h1 {
+    font-size: 2rem;
+  }
+  
+  .app-main {
+    padding: 1rem;
+  }
+  
+  .input-container {
+    flex-direction: column;
+  }
+  
+  .add-button {
+    justify-content: center;
+  }
+  
+  .controls-section {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+  
+  .stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .filters {
+    gap: 0.25rem;
+  }
+  
+  .filter-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    min-width: 70px;
+  }
+  
+  .clear-completed {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .todo-item {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .todo-text {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .error-popup {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .empty-state {
+    padding: 2rem 1rem;
+  }
+}
+
+
+/* Scrollbar personalizado */
+.todo-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+
+.todo-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+
+.todo-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+
+.todo-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Clear Actions */
+.clear-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.clear-all {
+  background: transparent;
+  border: 2px solid var(--warning);
+  color: var(--warning);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+
+.clear-all:hover {
+  background: var(--warning);
+  color: white;
+  transform: translateY(-1px);
+}
+
+
+/* Responsive para clear actions */
+@media (max-width: 600px) {
+  .clear-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .clear-completed,
+  .clear-all {
+    width: 100%;
+  }
+}
+
+
+/* Espaciado para el botón de cambiar tema */
+.theme-toggle-btn {
+  margin-top: 15px; /* Esto empuja el botón hacia abajo */
+  transition: all 0.3s ease; /* Para que el cambio de color entre modos sea suave */
+}
+
+
+/* =========================================
+   ESTILOS PARA EL MODO OSCURO 
+========================================= */
+
+body.dark-mode {
+  /* 1. Pisamos el gradiente claro con un fondo oscuro sólido */
+  background: #121212; 
+  color: #ffffff;
+  
+  /* 2. Magia pura: Invertimos tus variables CSS originales para que el texto sea claro */
+  --text: #f3f4f6;
+  --text-light: #a9b1ba;
+  --primary: #41adff; /* Cambiamos el gris oscuro por un celeste para que resalten los números */
+  --border: #374151;
+}
+
+/* Oscurecemos el Header celeste para que combine con la noche */
+body.dark-mode .header {
+  background: linear-gradient(135deg, #1a242f 0%, #0c151c 100%);
+}
+
+/* Contenedores de las tareas y formulario */
+body.dark-mode .controls-section, 
+body.dark-mode .todo-list-section,
+body.dark-mode .input-container {
+  background: #1e1e1e;
+  border-color: #333;
+}
+
+/* Color del texto que escribes en el input */
+body.dark-mode .todo-input {
+  color: #ffffff;
+}
+
+/* Efecto hover al pasar el mouse por las tareas en modo oscuro */
+body.dark-mode .todo-item:hover {
+  background: #2a2a2a;
+}
+
+/* =========================================
+   INTEGRAR BOTÓN DE TEMA EN MODO OSCURO
+========================================= */
+
+body.dark-mode .header .theme-toggle-btn {
+  /* 1. Hacemos el fondo transparente para que se vea el Header */
+  background: transparent;
+  
+  /* 2. Cambiamos el color del texto (y el emoji) a blanco */
+  color: #ffffff;
+  
+  /* 3. Le ponemos un borde sutil blanco para que se note que es un botón */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  
+  /* Opcional: quitamos sombras si tuviera */
+  box-shadow: none;
+}
+
+/* Efecto al pasar el mouse (hover) en modo oscuro */
+body.dark-mode .header .theme-toggle-btn:hover {
+  /* Fondo blanco muy suave al pasar el mouse */
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+}
