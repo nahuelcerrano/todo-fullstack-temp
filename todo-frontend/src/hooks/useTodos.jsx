@@ -43,7 +43,7 @@ export const useTodos = () => {
             // El servidor nos devuelve la tarea ya armada con su ID
             const newTodo = await response.json();
             // La agregamos a la pantalla
-            setTodos([...todos, newTodo]);
+            setTodos(prevTodos => [...prevTodos, newTodo]);
         } catch (error) {
             console.error('Error al guardar:', error);
         }
@@ -54,7 +54,7 @@ export const useTodos = () => {
         try {
             const response = await fetch(`${API_URL}/${id}`, { method: 'PUT' });
             const updatedTodo = await response.json();
-            setTodos(todos.map(todo => todo.id === id ? updatedTodo : todo));
+            setTodos(prevTodos => prevTodos.map(todo => todo.id === id ? updatedTodo : todo));
         } catch (error) {
             console.error('Error al actualizar:', error);
         }
@@ -64,7 +64,7 @@ export const useTodos = () => {
     const handleDeleteTodo = async (id) => {
         try {
             await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-            setTodos(todos.filter(todo => todo.id !== id));
+            setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
         } catch (error) {
             console.error('Error al eliminar:', error);
         }
