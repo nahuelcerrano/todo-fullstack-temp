@@ -1,61 +1,86 @@
-const express = require('express');
-const cors = require('cors');
+require('dotenv').config()
 
-const app = express();
-const PORT = 3000;
+const express = require ('express')
+const cors = require('cors')
+const { Pool } = require('pg')
 
-// Configuración básica
-app.use(cors()); // Permite que React se conecte sin bloqueos de seguridad
-app.use(express.json()); // Permite que el servidor entienda datos en formato JSON
+const app = express()
+const PORT = 3000
 
-// Nuestra "Base de datos" temporal en memoria
-let todos = [];
 
-// ==========================================
-// RUTAS (ENDPOINTS) DE NUESTRA API
-// ==========================================
+app.use(cors())
+app.use(express.json())
 
-// 1. OBTENER TODAS LAS TAREAS (GET)
-app.get('/api/todos', (req, res) => {
-    res.json(todos);
-});
 
-// 2. CREAR UNA NUEVA TAREA (POST)
-app.post('/api/todos', (req, res) => {
-    const newTodo = {
-        id: Date.now(),
-        text: req.body.text,
-        completed: false
-    };
-    todos.push(newTodo);
-    // Respondemos con la tarea recién creada
-    res.status(201).json(newTodo);
-});
+const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOTS,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+})
 
-// 3. ACTUALIZAR UNA TAREA (PUT) - Para marcarla completada
-app.put('/api/todos/:id', (req, res) => {
-    const todoId = parseInt(req.params.id);
-    const todo = todos.find(t => t.id === todoId);
-    
-    if (todo) {
-        // Invertimos el estado de completado
-        todo.completed = !todo.completed;
-        res.json(todo);
-    } else {
-        res.status(404).json({ error: 'Tarea no encontrada' });
+
+pool.connect()
+    .then(() => console.log('📦 Conectado a PostgreSQL con exito'))
+    .catch(err => console.error('❌ Error al conectar a PostgreSQL', err.stack))
+
+
+app.get('/api/todos', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM todos ORDER BY id ASC')
+        res.json(result.rows)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
     }
-});
+})
 
-// 4. ELIMINAR UNA TAREA (DELETE)
-app.delete('/api/todos/:id', (req, res) => {
-    const todoId = parseInt(req.params.id);
-    todos = todos.filter(t => t.id !== todoId);
-    res.json({ message: 'Tarea eliminada exitosamente' });
-});
 
-// ==========================================
-// INICIAR EL SERVIDOR
-// ==========================================
+app.post('/api/todos', async (req, res) => {
+    try {
+        const { text } = req.body
+
+        const result = await pool.query(
+            'INSERT INTO todos (text, completed) VALUE ($1 , $2 ) returning *', [text, false]
+        )
+        res.status(201).json(result.rows[0])
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
+
+
+app.put('/api/todos/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const todoSelect = await pool.query('SELECT completed FROM todos WHERE id = $1', [id])
+
+        if (todoSelect.rows.length === 0) {
+            return res.status(404).json({ error: 'Tarea no encontrada' })
+        }
+
+        const currentState = todoSelect.rows[0].completed
+
+        const result = await pool.query('UPDATE todos SET completed = $1 WHERE id = RETURNING *', [!currentState, id])
+
+        res.json(result.rows[0])
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
+app.delete('/api/todos/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        await pool.query('DELETE FROM todos WHERE id = $1', [id])
+        res.json({ message: 'Tarea eliminada exitosamente' })
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);
-});
+    console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`)
+})
