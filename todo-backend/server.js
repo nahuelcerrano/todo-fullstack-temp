@@ -14,7 +14,7 @@ app.use(express.json())
 
 const pool = new Pool({
     user: process.env.DB_USER,
-    host: process.env.DB_HOTS,
+    host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
@@ -41,7 +41,7 @@ app.post('/api/todos', async (req, res) => {
         const { text } = req.body
 
         const result = await pool.query(
-            'INSERT INTO todos (text, completed) VALUE ($1 , $2 ) returning *', [text, false]
+            'INSERT INTO todos (text, completed) VALUES ($1 , $2 ) returning *', [text, false]
         )
         res.status(201).json(result.rows[0])
     } catch (err) {
@@ -63,7 +63,7 @@ app.put('/api/todos/:id', async (req, res) => {
 
         const currentState = todoSelect.rows[0].completed
 
-        const result = await pool.query('UPDATE todos SET completed = $1 WHERE id = RETURNING *', [!currentState, id])
+        const result = await pool.query('UPDATE todos SET completed = $1 WHERE id = $2 RETURNING *', [!currentState, id])
 
         res.json(result.rows[0])
     } catch (err) {

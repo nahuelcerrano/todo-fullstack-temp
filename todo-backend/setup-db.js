@@ -17,7 +17,7 @@ const setupDatabase = async () => {
         await rootClient.connect()
         console.log('🔌Conectado a PostgreSQL (Servidor principal) .')
 
-        const dbCheck = await rootClient.query(` SELECT 1 FROM pg_database WHERE datname = '${process.env.DB_NAME} '`)
+        const dbCheck = await rootClient.query(` SELECT 1 FROM pg_database WHERE datname = '${process.env.DB_NAME}'`)
 
         if (dbCheck.rowCount === 0) {
             console.log(`⌛Creando la base de datos " ${process.env.DB_NAME} " ... `)
@@ -28,7 +28,7 @@ const setupDatabase = async () => {
         }
     } catch (error) {
         console.error('❌ Error configurando la base de datos:', error.message)
-        process.exist(1)
+        process.exit(1)
     } finally {
         await rootClient.end()
     }
@@ -49,7 +49,7 @@ const setupDatabase = async () => {
         await appClient.query(` 
                     CREATE TABLE IF NOT EXISTS todos 
                     ( id SERIAL PRIMARY KEY,
-                     text VARCHAR(255) NOT FULL, 
+                     text VARCHAR(255) NOT NULL, 
                      completed BOOLEAN DEFAULT false
                      )
                 `)
